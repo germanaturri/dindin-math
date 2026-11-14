@@ -1,0 +1,54 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Categorias · DinDin Math</title><link rel="stylesheet" href="/static/css/style.css"></head>
+<body><div class="app"><main class="conteudo">
+  <div class="topo"><div><h1>Categorias</h1><p>Personalize como suas entradas e saídas são classificadas.</p></div><button class="btn" id="novo">+ Nova categoria</button></div>
+  <div class="grade g2">
+    <div class="cartao"><h3>Saídas</h3><table class="tabela"><tbody id="listaSAIDA"></tbody></table></div>
+    <div class="cartao"><h3>Entradas</h3><table class="tabela"><tbody id="listaENTRADA"></tbody></table></div>
+  </div>
+</main></div>
+<div class="painel" id="painel"><div class="caixa" role="dialog" aria-labelledby="tituloForm">
+  <header><h2 id="tituloForm">Nova categoria</h2><button class="icone-btn" onclick="fecharPainel('painel')" aria-label="Fechar">✕</button></header>
+  <form id="form" novalidate><input type="hidden" name="id">
+    <div class="grupo"><label for="nome">Nome</label><input class="campo" id="nome" name="nome" maxlength="40"><div class="msg-campo"></div></div>
+    <div class="grupo"><label for="tipo">Tipo</label><select class="campo" id="tipo" name="tipo"><option value="SAIDA">Saída</option><option value="ENTRADA">Entrada</option></select><div class="msg-campo"></div></div>
+    <div class="grupo"><label for="cor">Cor</label><input class="campo" id="cor" name="cor" type="color" value="#047857" style="height:42px;padding:4px"><div class="msg-campo"></div></div>
+    <button class="btn" type="submit" style="width:100%;justify-content:center">Salvar</button>
+  </form></div></div>
+<script src="/static/js/api.js"></script>
+<script>
+let categorias = [];
+async function carregar() {
+  categorias = await API.get('/api/categorias');
+  for (const tipo of ['SAIDA', 'ENTRADA']) {
+    const itens = categorias.filter((c) => c.tipo === tipo);
+    $('#lista' + tipo).innerHTML = itens.map((c) => `<tr>
+      <td><span class="etiqueta"><span class="bola" style="background:${c.cor}"></span>${esc(c.nome)}</span></td>
+      <td style="color:var(--suave);font-size:13px">${c.qtd_lancamentos} lançamento(s)</td>
+      <td class="dir" style="white-space:nowrap"><button class="icone-btn" data-editar="${c.id}" aria-label="Editar">✎</button><button class="icone-btn" data-excluir="${c.id}" aria-label="Excluir">🗑</button></td></tr>`).join('')
+      || '<tr><td class="vazio">Nenhuma categoria</td></tr>';
+  }
+}
+function abrirForm(c) {
+  const f = $('#form'); f.reset(); limparErros(f);
+  $('#tituloForm').textContent = c ? 'Editar categoria' : 'Nova categoria';
+  f.id.value = c?.id || ''; f.nome.value = c?.nome || ''; f.tipo.value = c?.tipo || 'SAIDA'; f.cor.value = c?.cor || '#047857';
+  abrirPainel('painel');
+}
+$('#form').addEventListener('submit', async (e) => {
+  e.preventDefault(); const f = e.target; limparErros(f);
+  const corpo = { nome: f.nome.value, tipo: f.tipo.value, cor: f.cor.value };
+  try { f.id.value ? await API.put('/api/categorias/' + f.id.value, corpo) : await API.post('/api/categorias', corpo);
+        avisar('Categoria salva'); fecharPainel('painel'); carregar(); }
+  catch (er) { mostrarErros(f, er); if (er.status === 409) avisar(er.message, true); }
+});
+document.addEventListener('click', async (e) => {
+  const ed = e.target.closest('[data-editar]'), ex = e.target.closest('[data-excluir]');
+  if (ed) abrirForm(categorias.find((c) => c.id == ed.dataset.editar));
+  if (ex && confirm('Excluir esta categoria?')) {
+    try { await API.del('/api/categorias/' + ex.dataset.excluir); avisar('Categoria excluída'); carregar(); } catch (er) { avisar(er.message, true); }
+  }
+});
+$('#novo').onclick = () => abrirForm(null);
+(async () => { await iniciarPagina('categorias'); carregar(); })();
+</script></body></html>

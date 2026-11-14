@@ -1,0 +1,109 @@
+/* DinDin Math - estilos globais */
+:root{
+  --verde:#047857; --verde-2:#059669; --verde-claro:#ECFDF5; --tinta:#111827; --texto:#374151; --suave:#6B7280;
+  --borda:#E5E7EB; --fundo:#F6F7F5; --branco:#fff; --vermelho:#DC2626; --vermelho-claro:#FEF2F2; --azul:#2563EB;
+  --amarelo:#B45309; --raio:12px; --sombra:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.08);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box} html,body{margin:0;height:100%}
+body{background:var(--fundo);color:var(--texto);font-size:15px;line-height:1.45}
+a{color:var(--verde)} h1,h2,h3{color:var(--tinta);margin:0}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- layout autenticado ---------- */
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.lateral{background:var(--branco);border-right:1px solid var(--borda);padding:22px 16px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
+.marca{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--tinta);margin:0 8px 24px}
+.marca .moeda{width:34px;height:34px;border-radius:10px;background:var(--verde);color:#fff;display:grid;place-items:center;font-size:17px}
+.lateral a.item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;text-decoration:none;color:var(--texto);font-weight:500}
+.lateral a.item:hover{background:#F3F4F6}
+.lateral a.item.ativo{background:var(--verde-claro);color:var(--verde);font-weight:700}
+.lateral .ico{width:20px;text-align:center}
+.lateral .rodape{margin-top:auto;border-top:1px solid var(--borda);padding-top:14px;font-size:13px;color:var(--suave)}
+.lateral .rodape b{display:block;color:var(--tinta);font-size:14px}
+.lateral .rodape button{margin-top:10px;width:100%}
+.conteudo{padding:28px 34px 50px;max-width:1280px;width:100%}
+.topo{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.topo h1{font-size:26px}
+.topo p{margin:4px 0 0;color:var(--suave)}
+
+/* ---------- componentes ---------- */
+.cartao{background:var(--branco);border:1px solid var(--borda);border-radius:var(--raio);box-shadow:var(--sombra);padding:18px 20px}
+.cartao h3{font-size:15px;margin-bottom:12px}
+.grade{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))} .g3{grid-template-columns:repeat(3,minmax(0,1fr))} .g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpi .rot{font-size:13px;color:var(--suave);font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.kpi .val{font-size:26px;font-weight:800;color:var(--tinta);margin-top:6px}
+.kpi .sub{font-size:13px;color:var(--suave);margin-top:2px}
+.pos{color:var(--verde)!important} .neg{color:var(--vermelho)!important}
+
+.btn{appearance:none;border:1px solid transparent;border-radius:9px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer;background:var(--verde);color:#fff;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.btn:hover{background:#065F46} .btn:focus-visible,.campo:focus-visible{outline:3px solid #A7F3D0;outline-offset:1px}
+.btn.sec{background:var(--branco);color:var(--texto);border-color:#D1D5DB} .btn.sec:hover{background:#F9FAFB}
+.btn.perigo{background:var(--branco);color:var(--vermelho);border-color:#FCA5A5}
+.btn.peq{padding:5px 10px;font-size:13px}
+.btn[disabled]{opacity:.6;cursor:wait}
+.icone-btn{border:none;background:none;cursor:pointer;padding:5px 7px;border-radius:7px;color:var(--suave);font-size:15px}
+.icone-btn:hover{background:#F3F4F6;color:var(--tinta)}
+
+form .linha{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+label{display:block;font-size:13px;font-weight:600;color:var(--tinta);margin:0 0 5px}
+.grupo{margin-bottom:14px}
+.campo{width:100%;padding:9px 11px;border:1px solid #D1D5DB;border-radius:9px;font:inherit;background:#fff;color:var(--tinta)}
+.campo.erro{border-color:var(--vermelho);background:var(--vermelho-claro)}
+.msg-campo{color:var(--vermelho);font-size:12.5px;margin-top:4px;min-height:0}
+.alternador{display:grid;grid-template-columns:1fr 1fr;background:#F3F4F6;border-radius:10px;padding:4px;gap:4px;margin-bottom:14px}
+.alternador button{border:0;border-radius:8px;padding:8px;font:inherit;font-weight:700;background:transparent;cursor:pointer;color:var(--suave)}
+.alternador button.on.saida{background:#fff;color:var(--vermelho);box-shadow:var(--sombra)}
+.alternador button.on.entrada{background:#fff;color:var(--verde);box-shadow:var(--sombra)}
+
+.filtros{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.filtros .campo{width:auto;min-width:140px}
+table.tabela{width:100%;border-collapse:collapse}
+.tabela th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--suave);text-align:left;padding:10px;border-bottom:1px solid var(--borda)}
+.tabela td{padding:11px 10px;border-bottom:1px solid #F1F2F4;vertical-align:middle}
+.tabela tr:hover td{background:#FAFAFA}
+.tabela .dir{text-align:right}
+.etiqueta{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:3px 9px;border-radius:999px;background:#F3F4F6;color:var(--texto);white-space:nowrap}
+.etiqueta .bola{width:8px;height:8px;border-radius:50%}
+.st-ABERTA{background:#EFF6FF;color:var(--azul)} .st-FECHADA{background:#FFFBEB;color:var(--amarelo)} .st-PAGA{background:var(--verde-claro);color:var(--verde)}
+.vazio{text-align:center;color:var(--suave);padding:34px 10px}
+.mesnav{display:flex;align-items:center;gap:6px}
+.mesnav span{min-width:120px;text-align:center;font-weight:700;color:var(--tinta)}
+.barra{height:8px;background:#F3F4F6;border-radius:99px;overflow:hidden} .barra i{display:block;height:100%;background:var(--verde-2);border-radius:99px}
+.barra.alerta i{background:#F59E0B} .barra.critico i{background:var(--vermelho)}
+
+/* painel lateral e modal */
+.painel{position:fixed;inset:0;background:rgba(17,24,39,.35);display:none;justify-content:flex-end;z-index:30}
+.painel.aberto{display:flex}
+.painel .caixa{width:420px;max-width:100%;height:100%;background:#fff;padding:24px;overflow:auto;box-shadow:-8px 0 24px rgba(0,0,0,.12)}
+.painel .caixa header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+
+.aviso{position:fixed;right:24px;bottom:24px;background:var(--tinta);color:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);transition:.25s;z-index:50;max-width:360px}
+.aviso.mostrar{opacity:1;transform:none} .aviso.erro{background:var(--vermelho)}
+
+/* ---------- telas públicas (login / cadastro) ---------- */
+.publica{display:grid;grid-template-columns:1.05fr 1fr;min-height:100vh}
+.publica .arte{background:linear-gradient(150deg,#065F46,#047857 55%,#10B981);color:#ECFDF5;padding:56px;display:flex;flex-direction:column;justify-content:space-between}
+.publica .arte h1{color:#fff;font-size:40px;line-height:1.1;margin-top:40px}
+.publica .arte p{font-size:18px;max-width:440px;opacity:.92}
+.publica .arte ul{padding:0;list-style:none;display:grid;gap:10px;font-size:15px}
+.publica .arte li::before{content:"✓";margin-right:10px;font-weight:800}
+.publica .form{display:flex;align-items:center;justify-content:center;padding:40px}
+.publica .form .cartao{width:100%;max-width:400px;padding:30px}
+.publica h2{font-size:24px;margin-bottom:6px}
+.publica .dica{background:var(--verde-claro);color:var(--verde);border-radius:9px;padding:10px 12px;font-size:13px;margin-top:16px}
+.erro-geral{background:var(--vermelho-claro);color:var(--vermelho);border-radius:9px;padding:10px 12px;font-size:14px;margin-bottom:12px;display:none}
+
+/* gráficos SVG */
+.grafico svg{width:100%;height:auto;display:block}
+.legenda{display:grid;gap:7px;font-size:13.5px}
+.legenda div{display:flex;align-items:center;gap:8px} .legenda .v{margin-left:auto;font-weight:700;color:var(--tinta)}
+.legenda .bola{width:10px;height:10px;border-radius:3px;flex:none}
+
+@media (max-width:980px){
+  .app{grid-template-columns:1fr} .lateral{position:static;height:auto;flex-direction:row;flex-wrap:wrap;padding:12px}
+  .lateral .rodape{display:none} .marca{margin:0 12px 0 0}
+  .g4{grid-template-columns:repeat(2,1fr)} .g2,.g3{grid-template-columns:1fr}
+  .publica{grid-template-columns:1fr} .publica .arte{display:none} .conteudo{padding:20px}
+}

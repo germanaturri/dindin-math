@@ -1,0 +1,44 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lançamentos · DinDin Math</title><link rel="stylesheet" href="/static/css/style.css"></head>
+<body><div class="app"><main class="conteudo">
+  <div class="topo"><div><h1>Lançamentos</h1><p>Extrato de entradas e saídas com filtros.</p></div>
+    <div style="display:flex;gap:10px;align-items:center"><div class="mesnav"><button class="btn sec peq" id="mesAnt" aria-label="Mês anterior">‹</button><span id="mesTxt"></span><button class="btn sec peq" id="mesProx" aria-label="Próximo mês">›</button></div>
+    <button class="btn" id="novo">+ Novo lançamento</button></div></div>
+  <div class="grade g3" style="margin-bottom:16px">
+    <div class="cartao kpi"><div class="rot">Entradas</div><div class="val pos num" id="tEnt">-</div></div>
+    <div class="cartao kpi"><div class="rot">Saídas</div><div class="val neg num" id="tSai">-</div></div>
+    <div class="cartao kpi"><div class="rot">Saldo do período</div><div class="val num" id="tSal">-</div><div class="sub" id="tQtd"></div></div>
+  </div>
+  <div class="cartao">
+    <div class="filtros">
+      <select class="campo" id="fTipo" aria-label="Tipo"><option value="">Todos os tipos</option><option value="ENTRADA">Entradas</option><option value="SAIDA">Saídas</option></select>
+      <select class="campo" id="fCat" aria-label="Categoria"><option value="">Todas as categorias</option></select>
+      <select class="campo" id="fForma" aria-label="Forma de pagamento"><option value="">Todas as formas</option></select>
+      <input class="campo" id="fBusca" placeholder="Buscar descrição..." aria-label="Buscar" style="flex:1">
+    </div>
+    <table class="tabela"><thead><tr><th>Data</th><th>Descrição</th><th>Categoria</th><th>Forma</th><th class="dir">Valor</th><th></th></tr></thead><tbody id="lista"></tbody></table>
+  </div>
+</main></div>
+
+<div class="painel" id="painel"><div class="caixa" role="dialog" aria-labelledby="tituloForm">
+  <header><h2 id="tituloForm">Novo lançamento</h2><button class="icone-btn" onclick="fecharPainel('painel')" aria-label="Fechar">✕</button></header>
+  <form id="form" novalidate>
+    <input type="hidden" name="id">
+    <div class="alternador"><button type="button" data-tipo="SAIDA" class="saida">Saída</button><button type="button" data-tipo="ENTRADA" class="entrada">Entrada</button></div>
+    <div class="grupo"><label for="descricao">Descrição</label><input class="campo" id="descricao" name="descricao" maxlength="120" placeholder="Ex.: Supermercado"><div class="msg-campo"></div></div>
+    <div class="linha">
+      <div class="grupo"><label for="valor">Valor (R$)</label><input class="campo num" id="valor" name="valor" inputmode="decimal" placeholder="0,00"><div class="msg-campo"></div></div>
+      <div class="grupo"><label for="data">Data</label><input class="campo" id="data" name="data" type="date"><div class="msg-campo"></div></div>
+    </div>
+    <div class="grupo"><label for="categoria_id">Categoria</label><select class="campo" id="categoria_id" name="categoria_id"></select><div class="msg-campo"></div></div>
+    <div class="grupo"><label for="forma_pagamento_id">Forma de pagamento</label><select class="campo" id="forma_pagamento_id" name="forma_pagamento_id"></select><div class="msg-campo"></div></div>
+    <div class="linha" id="blocoCartao" hidden>
+      <div class="grupo"><label for="cartao_id">Cartão</label><select class="campo" id="cartao_id" name="cartao_id"></select><div class="msg-campo"></div></div>
+    </div>
+    <div class="grupo"><label for="observacao">Observação (opcional)</label><input class="campo" id="observacao" name="observacao" maxlength="255"><div class="msg-campo"></div></div>
+    <button class="btn" type="submit" style="width:100%;justify-content:center">Salvar</button>
+  </form>
+</div></div>
+<script src="/static/js/api.js"></script>
+<script src="/static/js/lancamentos.js"></script>
+</body></html>

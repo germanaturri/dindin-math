@@ -1,0 +1,27 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Entrar · DinDin Math</title><link rel="stylesheet" href="/static/css/style.css"></head>
+<body><div class="publica">
+  <section class="arte"><div class="marca" style="color:#fff"><span class="moeda" style="background:#fff;color:#047857">$</span>DinDin Math</div>
+    <div><h1>Seu dinheiro, organizado e explicado.</h1><p>Registre entradas e saídas, separe o que é fatura do cartão e veja para onde vai cada real.</p>
+    <ul><li>Categorias e formas de pagamento</li><li>Faturas e compras parceladas</li><li>Gráficos e demonstrativo mensal</li></ul></div>
+    <small>Projeto Integrador · Desenvolvimento de Sistemas</small></section>
+  <section class="form"><div class="cartao">
+    <h2>Entrar</h2><p style="color:var(--suave);margin:0 0 20px">Acesse sua conta para continuar.</p>
+    <form id="form" novalidate>
+      <div class="erro-geral" role="alert"></div>
+      <div class="grupo"><label for="email">E-mail</label><input class="campo" id="email" name="email" type="email" autocomplete="email" required><div class="msg-campo"></div></div>
+      <div class="grupo"><label for="senha">Senha</label><input class="campo" id="senha" name="senha" type="password" autocomplete="current-password" required><div class="msg-campo"></div></div>
+      <button class="btn" style="width:100%;justify-content:center" type="submit">Entrar</button>
+    </form>
+    <p style="text-align:center;font-size:14px">Não tem conta? <a href="/app/cadastro">Cadastre-se</a></p>
+    <div class="dica">Conta de demonstração: <b>demo@dindin.com</b> · senha <b>Demo1234</b></div>
+  </div></section>
+</div>
+<script src="/static/js/api.js"></script>
+<script>
+$('#form').addEventListener('submit', async (e) => {
+  e.preventDefault(); const f = e.target; limparErros(f); const b = $('button', f); b.disabled = true;
+  try { await API.post('/api/auth/login', { email: f.email.value, senha: f.senha.value }); location.href = '/'; }
+  catch (erro) { mostrarErros(f, erro); } finally { b.disabled = false; }
+});
+</script></body></html>

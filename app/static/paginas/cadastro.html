@@ -1,0 +1,29 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Criar conta · DinDin Math</title><link rel="stylesheet" href="/static/css/style.css"></head>
+<body><div class="publica">
+  <section class="arte"><div class="marca" style="color:#fff"><span class="moeda" style="background:#fff;color:#047857">$</span>DinDin Math</div>
+    <div><h1>Comece em menos de um minuto.</h1><p>Sua conta já vem com categorias sugeridas para você lançar o primeiro gasto agora mesmo.</p></div>
+    <small>Projeto Integrador · Desenvolvimento de Sistemas</small></section>
+  <section class="form"><div class="cartao">
+    <h2>Criar conta</h2><p style="color:var(--suave);margin:0 0 20px">Preencha seus dados.</p>
+    <form id="form" novalidate>
+      <div class="erro-geral" role="alert"></div>
+      <div class="grupo"><label for="nome">Nome</label><input class="campo" id="nome" name="nome" autocomplete="name" required><div class="msg-campo"></div></div>
+      <div class="grupo"><label for="email">E-mail</label><input class="campo" id="email" name="email" type="email" autocomplete="email" required><div class="msg-campo"></div></div>
+      <div class="grupo"><label for="senha">Senha</label><input class="campo" id="senha" name="senha" type="password" autocomplete="new-password" required><div class="msg-campo"></div><small style="color:var(--suave)">Mínimo de 8 caracteres, com letras e números.</small></div>
+      <div class="grupo"><label for="confirmar">Confirmar senha</label><input class="campo" id="confirmar" name="confirmar" type="password" autocomplete="new-password" required><div class="msg-campo"></div></div>
+      <button class="btn" style="width:100%;justify-content:center" type="submit">Criar conta</button>
+    </form>
+    <p style="text-align:center;font-size:14px">Já tem conta? <a href="/app/login">Entrar</a></p>
+  </div></section>
+</div>
+<script src="/static/js/api.js"></script>
+<script>
+$('#form').addEventListener('submit', async (e) => {
+  e.preventDefault(); const f = e.target; limparErros(f);
+  if (f.senha.value !== f.confirmar.value) return mostrarErros(f, { message: 'As senhas não conferem', campos: { confirmar: 'As senhas não conferem' } });
+  const b = $('button', f); b.disabled = true;
+  try { await API.post('/api/auth/registrar', { nome: f.nome.value, email: f.email.value, senha: f.senha.value }); location.href = '/'; }
+  catch (erro) { mostrarErros(f, erro); } finally { b.disabled = false; }
+});
+</script></body></html>

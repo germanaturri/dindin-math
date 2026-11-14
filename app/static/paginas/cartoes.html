@@ -1,0 +1,25 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cartões e faturas · DinDin Math</title><link rel="stylesheet" href="/static/css/style.css"></head>
+<body><div class="app"><main class="conteudo">
+  <div class="topo"><div><h1>Cartões e faturas</h1><p>Limites, fechamento e vencimento de cada cartão de crédito.</p></div><button class="btn" id="novo">+ Novo cartão</button></div>
+  <div class="grade g3" id="cartoes"></div>
+  <div id="areaFaturas"></div>
+</main></div>
+<div class="painel" id="painel"><div class="caixa" role="dialog" aria-labelledby="tituloForm">
+  <header><h2 id="tituloForm">Novo cartão</h2><button class="icone-btn" onclick="fecharPainel('painel')" aria-label="Fechar">✕</button></header>
+  <form id="form" novalidate><input type="hidden" name="id">
+    <div class="grupo"><label for="nome">Nome do cartão</label><input class="campo" id="nome" name="nome" maxlength="40" placeholder="Ex.: Nubank"><div class="msg-campo"></div></div>
+    <div class="linha">
+      <div class="grupo"><label for="bandeira">Bandeira</label><select class="campo" id="bandeira" name="bandeira"><option>VISA</option><option>MASTERCARD</option><option>ELO</option><option>AMEX</option><option>HIPERCARD</option><option>OUTRA</option></select><div class="msg-campo"></div></div>
+      <div class="grupo"><label for="limite">Limite (R$)</label><input class="campo num" id="limite" name="limite" inputmode="decimal" placeholder="0,00"><div class="msg-campo"></div></div>
+    </div>
+    <div class="linha">
+      <div class="grupo"><label for="dia_fechamento">Dia do fechamento</label><input class="campo" id="dia_fechamento" name="dia_fechamento" type="number" min="1" max="28"><div class="msg-campo"></div></div>
+      <div class="grupo"><label for="dia_vencimento">Dia do vencimento</label><input class="campo" id="dia_vencimento" name="dia_vencimento" type="number" min="1" max="28"><div class="msg-campo"></div></div>
+    </div>
+    <div class="grupo"><label style="display:flex;gap:8px;align-items:center;font-weight:500"><input type="checkbox" name="ativo" checked> Cartão ativo</label></div>
+    <button class="btn" type="submit" style="width:100%;justify-content:center">Salvar</button>
+  </form></div></div>
+<script src="/static/js/api.js"></script>
+<script src="/static/js/cartoes.js"></script>
+</body></html>

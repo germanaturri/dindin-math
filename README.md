@@ -1,49 +1,104 @@
 # DinDin Math 💰
 
-Sistema web de **gestão de finanças pessoais** desenvolvido no Projeto Integrador
+Sistema web de **gestão de finanças pessoais** desenvolvido por **Germana Turri** no Projeto Integrador
+(Desenvolvimento de Sistemas) da UCEFF – Unidade Central de Educação FAEM Faculdade, polo Frederico Westphalen (RS). Permite lançar entradas e saídas, classificar gastos em categorias,
+separar o que é fatura do cartão de crédito (inclusive compras parceladas), registrar a forma de
+pagamento e visualizar gráficos comparativos e demonstrativos mensais.
 
+## Funcionalidades
 
-## 1. Escopo
+- Cadastro, login e logout com senha protegida por hash
+- Categorias personalizáveis (entradas e saídas, com cor)
+- Lançamentos com forma de pagamento (dinheiro, PIX, débito, crédito, boleto, transferência)
+- Cartões de crédito com limite, dia de fechamento e de vencimento
+- Compras no crédito associadas automaticamente à fatura do mês
 
-**Problema.** Quem usa várias formas de pagamento (dinheiro, PIX, débito, boleto e cartão de crédito)
-não consegue acompanhar de forma simples quanto entra, quanto sai, em que categorias gasta e quanto
-das próximas faturas do cartão já está comprometido com compras parceladas.
+> Recuperação de senha, faturas detalhadas, parcelamento, dashboard, relatórios e simulador estão planejados para a Entrega 03.
+- Extrato com filtros (mês, tipo, categoria, forma de pagamento, busca)
 
-**Objetivo geral.** Desenvolver um sistema web que permita registrar entradas e saídas, classificar
-os gastos por categoria e forma de pagamento, controlar as faturas dos cartões (inclusive compras
-parceladas) e apresentar gráficos comparativos e demonstrativos mensais.
+## Tecnologias
 
-**Objetivos específicos**
-- Cadastro, login e recuperação de senha por e-mail, com segurança
-- Banco de dados relacional para usuários, categorias, formas de pagamento, cartões, faturas e lançamentos
-- Associação automática de cada compra no crédito à fatura correta, com parcelas distribuídas pelas faturas seguintes
-- API REST documentada e testada no Postman
-- Dashboard com gráficos, demonstrativo mensal em CSV e simulador de compra parcelada (Tabela Price)
-- Testes automatizados
+| Camada | Tecnologia |
+|---|---|
+| Plataforma | Web (responsiva) |
+| Back-end | Python 3.10+ e Flask 3 (API REST em JSON) |
+| Banco de dados | SQLite 3 (scripts DDL/DML em `database/`) |
+| Front-end | HTML5, CSS3 e JavaScript puro (Fetch API); gráficos em SVG, sem bibliotecas externas |
+| Testes | collection do Postman |
+| Versionamento | Git e GitHub |
 
-**Delimitação (o que não será atendido).** Integração automática com bancos ou importação de extratos;
-pagamentos ou emissão de boletos; finanças empresariais; investimentos; contas compartilhadas;
-aplicativo mobile nativo (a interface web é responsiva); hospedagem em nuvem como requisito.
+## Como executar
 
-## 2. Plataforma e tecnologias
+Pré-requisito: [Python 3.10 ou superior](https://www.python.org/downloads/) (no Windows, marque
+"Add Python to PATH" na instalação).
 
-| Item | Escolha | Justificativa |
+```bash
+# 1. Entrar na pasta do projeto
+cd dindin-math
+
+# 2. (opcional, recomendado) criar um ambiente virtual
+python -m venv .venv
+# Windows:            .venv\Scripts\activate
+# Linux/macOS:        source .venv/bin/activate
+
+# 3. Instalar as dependências
+pip install -r requirements.txt
+
+# 4. Iniciar (cria o banco com dados de exemplo na primeira execução)
+python run.py
+```
+
+Acesse **http://127.0.0.1:5000** e entre com a conta de demonstração:
+
+- **E-mail:** `demo@dindin.com`
+- **Senha:** `Demo1234`
+
+Para recriar o banco do zero: `python run.py --reset-db`.
+
+### Testar a API no Postman
+
+Importe `docs/postman/DinDinMath.postman_collection.json`, execute a requisição **Login (demo)**
+e depois rode a collection inteira pelo *Collection Runner* (23 requisições com testes).
+Documentação completa dos endpoints: [`docs/API.md`](docs/API.md).
+
+## Configuração (parâmetros de conexão)
+
+Veja `.env.example`. Principais variáveis de ambiente:
+
+| Variável | Padrão | Descrição |
 |---|---|---|
-| Plataforma | **Web responsiva** | Funciona no computador e no celular, sem instalação |
-| Back-end | **Python 3.10+ e Flask 3** (API REST em JSON) | Simples, didático e adequado para APIs |
-| Banco de dados | **SQLite 3** | Não exige servidor; atende ao volume de um usuário; SQL padrão |
-| Front-end | **HTML5, CSS3 e JavaScript** (Fetch API), gráficos em SVG | Leve, sem dependências externas |
-| Testes | **pytest** e **Postman** | Testes automatizados e testes da API |
-| Ferramentas | Git/GitHub, VS Code, Mermaid/Graphviz, Excel | Versionamento, diagramas e cronograma |
+| `DINDIN_DB` | `instance/dindin.db` | Caminho do arquivo do banco SQLite |
+| `DINDIN_SECRET_KEY` | (chave de desenvolvimento) | Chave que assina o cookie de sessão |
+| `DINDIN_HOST` | `127.0.0.1` | Use `0.0.0.0` para acessar de outros computadores da rede |
+| `DINDIN_PORTA` | `5000` | Porta do servidor |
 
-## 3. Requisitos
+## Estrutura do projeto
 
-**Funcionais:** RF01 cadastrar usuário · RF02 login e logout · RF03 manter categorias · RF04 manter
-cartões · RF05 registrar entradas · RF06 registrar saídas com forma de pagamento · RF07 associar a
-compra no crédito à fatura · RF08 parcelar compras · RF09 extrato com filtros · RF10 consultar e pagar
-faturas · RF11 dashboard com gráficos · RF12 demonstrativo em CSV · RF13 simulador de parcelamento ·
-RF14 recuperar a senha por e-mail.
+```
+dindin-math/
+├── app/
+│   ├── __init__.py          # fábrica da aplicação e rotas das páginas
+│   ├── db.py                # conexão com o SQLite e criação do banco
+│   ├── auth.py              # cadastro, login, logout e decorador login_obrigatorio
+│   ├── validacao.py         # validação e conversão do payload (dinheiro, datas...)
+│   ├── erros.py             # erros padronizados em JSON
+│   ├── api/                 # endpoints REST (categorias, formas de pagamento, cartões, lançamentos)
+│   ├── servicos/faturas.py  # regras do cartão: fatura de cada compra, divisão de parcelas
+│   └── static/              # front-end: paginas/*.html, css/, js/
+├── database/                # 01_ddl.sql, 02_dml.sql, 03_consultas_exemplo.sql
+├── docs/                    # documentação, diagramas e entregas de cada etapa
+│   ├── API.md
+│   ├── postman/
+│   ├── entrega-01/ … entrega-04/
+├── run.py                   # ponto de entrada
+└── requirements.txt
+```
 
-**Não funcionais:** web responsiva; Python/Flask; SQLite; HTML/CSS/JS; senhas com hash, sessão segura
-e isolamento de dados por usuário; valores em centavos (sem erros de arredondamento); validação com
-mensagens por campo; testes automatizados; versionamento no GitHub; execução em Windows, Linux e macOS.
+## Entregas do Projeto Integrador
+
+| Etapa | Conteúdo | Pasta |
+|---|---|---|
+| Entrega 01 - Planejamento | Escopo, tecnologias, diagramas UML e MER, cronograma | `docs/entrega-01/` |
+| Entrega 02 - Funcionalidades básicas | Scripts DDL/DML, wireframes, API e telas iniciais | `docs/entrega-02/` |
+| Entrega 03 - Funcionalidades complementares | Faturas, parcelamento, recuperação de senha, gráficos, relatórios, simulador, testes | (próxima etapa) |
+| Entrega 04 - Entrega final | Prints, documento final, apresentação, produção científica | (próxima etapa) |
